@@ -10,6 +10,6 @@ export class UserController {
 
     @Post()
     public registerUser(@Body() user: CreateUserDto) {
-        this.userService.
+        this.userService.createUser(user);
     }
 }
