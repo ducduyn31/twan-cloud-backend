@@ -8,8 +8,8 @@ export class CreateUserDto {
     password: string;
 
     @MinLength(12)
-    sn: string;
+    cloudUsername: string;
 
     @MinLength(8)
-    boxPassword: string;
+    cloudPassword: string;
 }

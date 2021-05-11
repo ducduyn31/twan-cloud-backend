@@ -8,6 +8,7 @@ export class DatabaseService {
     private static databaseTypes = {};
 
     constructor(private type: DatabaseType) {
+        console.log(type);
     }
 
     static forFirebase(): Provider<DatabaseService> {

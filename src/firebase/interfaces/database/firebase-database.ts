@@ -9,7 +9,6 @@ import Firestore = firestore.Firestore;
 export class FirebaseDatabase implements Database<Firestore> {
 
     constructor(private metadataStorage: FirebaseMetadataStorage) {
-        console.log(metadataStorage);
     }
 
     registerModel<M>(model: { new (): M }): void {

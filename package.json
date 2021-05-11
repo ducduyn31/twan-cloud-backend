@@ -30,6 +30,7 @@
     "class-validator": "^0.13.1",
     "firebase-admin": "^9.7.0",
     "fireorm": "^0.20.0",
+    "moment": "^2.29.1",
     "node-rsa": "^1.1.1",
     "pluralize": "^8.0.0",
     "reflect-metadata": "^0.1.13",
