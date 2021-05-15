@@ -16,7 +16,7 @@ export class FirebaseCollection<M extends IEntity & Object> implements Model<M>{
         return undefined;
     }
 
-    getFirst(criteria: Partial<M>): Observable<M> {
+    findById(criteria: Partial<M>): Observable<M> {
         return undefined;
     }
 

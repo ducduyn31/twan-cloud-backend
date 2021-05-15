@@ -1,21 +1,36 @@
 import {Injectable} from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.request';
-import {Observable, of} from 'rxjs';
 import {User} from './dto/user';
-import {ModuleRef} from '@nestjs/core';
+import {DatabaseService} from '../database/database.service';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
 
-    constructor(/*private db: DatabaseService, private auth: AuthService*/private modules: ModuleRef) {
-        // this.db.getDatabase().registerModel(User);
+    constructor(private db: DatabaseService, private auth: AuthService) {
+        this.db.getDatabase().registerModel(User);
     }
 
-    public createUser(user: CreateUserDto): Observable<User> {
+    public async createUser(user: CreateUserDto): Promise<User> {
+        const result = await this.auth.register({
+            email: user.email,
+            password: user.password,
+        });
+        const theUser = CreateUserDto.convertToUser(result.uid, user);
 
-        // console.log(this.auth);
-        console.log(this.modules.get(UserService));
-        return of();
+        try {
+            await this.db.getDatabase().getModel(User).create(theUser);
+        } catch (e) {
+            await this.auth.deleteAuth({uid: result.uid});
+            throw e;
+        }
+        return theUser;
+    }
+
+    public async getToken(email: string) {
+        const result = await this.auth.login({email});
+
+        return { token: result.slice(0, result.length - 1)};
     }
 
 }
