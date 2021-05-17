@@ -46,4 +46,13 @@ export class ApiController {
             mergeMap((token) => this.oray.getNetworkMembers(token, networkId)),
         )
     }
+
+    @Get('members')
+    public getAllMembers(@Req() request: Request) {
+        const {username, md5Password} = request['user'];
+
+        return this.oray.getToken(username, md5Password).pipe(
+            mergeMap((token) => this.oray.getAllMembers(token)),
+        )
+    }
 }

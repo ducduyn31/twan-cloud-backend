@@ -9,6 +9,7 @@ import * as moment from 'moment';
 import {TokenPayload} from './interfaces/token-payload.interface';
 import {NetworkStatusResponse} from './interfaces/network-status-response.interface';
 import {AccountInfoResponse} from './interfaces/account-info-response.interface';
+import {HardwareMemberGeneralInfoResponse, SoftwareMemberGeneralInfoResponse} from './interfaces/member-general-info-response.interface';
 
 
 @Injectable()
@@ -121,6 +122,17 @@ export class OrayApiService {
 
     public getNetworkMembers(token: string, network: number): Observable<NetworkMemberResponse[]> {
         return this.http.get(`product/network/members/${network}`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            baseURL: this.PGY_API_SERVER,
+        }).pipe(
+            map((response) => response.data)
+        );
+    }
+
+    public getAllMembers(token: string): Observable<Array<HardwareMemberGeneralInfoResponse | SoftwareMemberGeneralInfoResponse>> {
+        return this.http.get(`product/member/list`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
