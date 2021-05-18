@@ -1,8 +1,13 @@
 import {Model} from '../../../database/model.interface';
 import {asapScheduler, Observable, scheduled} from 'rxjs';
-import {getRepository, IEntity} from 'fireorm';
+import {getRepository, IEntity, IEntityConstructor} from 'fireorm';
+import {CONTAINS} from 'class-validator';
 
 export class FirebaseCollection<M extends IEntity & Object> implements Model<M>{
+
+    constructor(private modelConstructor: IEntityConstructor) {
+        console.log(modelConstructor);
+    }
 
     create(newModel: M): Observable<M> {
         return scheduled(getRepository<M>(newModel.constructor.prototype).create(newModel), asapScheduler);
