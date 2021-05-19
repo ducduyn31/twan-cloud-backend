@@ -11,6 +11,7 @@ import {NetworkStatusResponse} from './interfaces/network-status-response.interf
 import {AccountInfoResponse} from './interfaces/account-info-response.interface';
 import {HardwareMemberGeneralInfoResponse, SoftwareMemberGeneralInfoResponse} from './interfaces/member-general-info-response.interface';
 import {RemoveMemberRequest} from './interfaces/remove-member.request';
+import {AddMemberRequest} from './interfaces/add-member.request';
 
 
 @Injectable()
@@ -143,10 +144,11 @@ export class OrayApiService {
         );
     }
 
-    public getMemberDevices(token: string, memberid: number): Observable<any> {
+    public getMemberDevices(token: string, memberid: string): Observable<any> {
         return this.http.get(`oraybox/device/get`, {
             headers: {
                 authorization: `Bearer ${token}`,
+                'X-Oraybox': memberid,
             },
             baseURL: this.PGY_API_SERVER,
         }).pipe(
@@ -156,6 +158,19 @@ export class OrayApiService {
 
     public removeMemberFromNetwork(token: string, removeMemberRequest: RemoveMemberRequest): Observable<{code: number}> {
         return this.http.post(`product/network/remove-member`, removeMemberRequest,{
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            baseURL: this.PGY_API_SERVER,
+        }).pipe(
+            map((response) => ({
+                code: response.status,
+            })),
+        );
+    }
+
+    addMemberFromNetwork(token: string, addMemberRequest: AddMemberRequest): Observable<{code: number}> {
+        return this.http.post(`product/network/add-member`, addMemberRequest,{
             headers: {
                 authorization: `Bearer ${token}`,
             },
