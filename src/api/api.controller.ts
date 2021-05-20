@@ -52,9 +52,10 @@ export class ApiController {
     @Get('members')
     public getAllMembers(@Req() request: Request) {
         const {username, md5Password} = request['user'];
+        const {notInNetwork} = request.query;
 
         return this.oray.getToken(username, md5Password).pipe(
-            mergeMap((token) => this.oray.getAllMembers(token)),
+            mergeMap((token) => this.oray.getAllMembers(token, !!notInNetwork)),
         )
     }
 

@@ -29,7 +29,7 @@ export class OrayApiService {
     }
 
     public login(username: string, password: string): Observable<LoginResponse> {
-        return this.http.post('authorization', {
+        return this.http.post(`authorization?r=${Math.random()}`, {
             account: username,
             password: password,
             ismd5: true,
@@ -42,7 +42,7 @@ export class OrayApiService {
     }
 
     public refreshToken(oldToken: string, refreshToken: string): Observable<string> {
-        return this.http.post('authorize/refreshing', {
+        return this.http.post(`authorize/refreshing?r=${Math.random()}`, {
             access_token: oldToken,
             refresh_token: refreshToken,
         }, {
@@ -75,7 +75,7 @@ export class OrayApiService {
     }
 
     public getAccountInfo(token: string): Observable<AccountInfoResponse> {
-        return this.http.get('/product/service/info', {
+        return this.http.get(`/product/service/info?r=${Math.random()}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -90,7 +90,7 @@ export class OrayApiService {
     }
 
     public listNetworks(token: string): Observable<NetworkResponse[]> {
-        return this.http.get('/product/network/list', {
+        return this.http.get(`/product/network/list?r=${Math.random()}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -101,7 +101,7 @@ export class OrayApiService {
     }
 
     public getNetworkInfo(user: string, network: number): Observable<NetworkResponse> {
-        return this.http.get(`product/network/info/${network}`, {
+        return this.http.get(`product/network/info/${network}?r=${Math.random()}`, {
             headers: {
                 authorization: user,
             },
@@ -112,7 +112,7 @@ export class OrayApiService {
     }
 
     public getNetworkState(token: string, network: number): Observable<NetworkStatusResponse> {
-        return this.http.get(`/product/network/online-state/${network}`, {
+        return this.http.get(`/product/network/online-state/${network}?r=${Math.random()}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -123,7 +123,7 @@ export class OrayApiService {
     }
 
     public getNetworkMembers(token: string, network: number): Observable<NetworkMemberResponse[]> {
-        return this.http.get(`product/network/members/${network}`, {
+        return this.http.get(`product/network/members/${network}?r=${Math.random()}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -133,8 +133,9 @@ export class OrayApiService {
         );
     }
 
-    public getAllMembers(token: string): Observable<Array<HardwareMemberGeneralInfoResponse | SoftwareMemberGeneralInfoResponse>> {
-        return this.http.get(`product/member/list`, {
+    public getAllMembers(token: string, requiresNotInNetwork: boolean = false): Observable<Array<HardwareMemberGeneralInfoResponse | SoftwareMemberGeneralInfoResponse>> {
+
+        return this.http.get(`product/member/list?r=${Math.random()}${requiresNotInNetwork ? '&isnetworked=0' : ''}`, {
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -145,7 +146,7 @@ export class OrayApiService {
     }
 
     public getMemberDevices(token: string, memberid: string): Observable<any> {
-        return this.http.get(`oraybox/device/get`, {
+        return this.http.get(`oraybox/device/get?r=${Math.random()}`, {
             headers: {
                 authorization: `Bearer ${token}`,
                 'X-Oraybox': memberid,
@@ -157,7 +158,7 @@ export class OrayApiService {
     }
 
     public removeMemberFromNetwork(token: string, removeMemberRequest: RemoveMemberRequest): Observable<{code: number}> {
-        return this.http.post(`product/network/remove-member`, removeMemberRequest,{
+        return this.http.post(`product/network/remove-member?r=${Math.random()}`, removeMemberRequest,{
             headers: {
                 authorization: `Bearer ${token}`,
             },
@@ -170,7 +171,7 @@ export class OrayApiService {
     }
 
     addMemberFromNetwork(token: string, addMemberRequest: AddMemberRequest): Observable<{code: number}> {
-        return this.http.post(`product/network/add-member`, addMemberRequest,{
+        return this.http.post(`product/network/add-member?r=${Math.random()}`, addMemberRequest,{
             headers: {
                 authorization: `Bearer ${token}`,
             },
