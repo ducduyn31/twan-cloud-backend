@@ -36,3 +36,5 @@ lerna-debug.log*
 # Environments
 .env
 /firebase-key.json
+/techqila.crt
+/techqila.key

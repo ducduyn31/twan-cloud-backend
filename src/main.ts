@@ -4,9 +4,17 @@ import {ConfigService} from '@nestjs/config';
 import * as admin from 'firebase-admin';
 import * as fireorm from 'fireorm';
 import {ValidationPipe} from '@nestjs/common';
+import * as fs from 'fs';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const httpsOptions = {
+    key: fs.readFileSync('./techqila.key'),
+    cert: fs.readFileSync('./techqila.crt'),
+  };
+
+  const app = await NestFactory.create(AppModule, {
+    httpsOptions,
+  });
   const configService: ConfigService = app.get(ConfigService);
 
   admin.initializeApp({
