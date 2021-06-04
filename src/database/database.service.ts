@@ -22,14 +22,14 @@ export class DatabaseService {
         };
     }
 
-    getDatabase<D>(type?: string): Database<D> {
-        if (type) {
-            return DatabaseService.databaseTypes[type];
+    getDatabase<D>(): Database<D> {
+        if (this.type) {
+            return DatabaseService.databaseTypes[this.type];
         }
         return DatabaseService.databaseTypes['__default'];
     }
 
-    addType(name: string, database: Database<any>): void {
+    static addType(name: string, database: Database<any>): void {
         DatabaseService.databaseTypes[name] = database;
     }
 }

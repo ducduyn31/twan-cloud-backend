@@ -1,4 +1,4 @@
-import {Body, Controller, Get, HttpException, HttpStatus, Post, Req} from '@nestjs/common';
+import {Body, Controller, Get, HttpException, HttpStatus, Req} from '@nestjs/common';
 import {CreateUserDto} from './dto/create-user.request';
 import {UserService} from './user.service';
 import {Request} from 'express';
@@ -9,7 +9,6 @@ export class UserController {
     constructor(private userService: UserService) {
     }
 
-    @Post()
     public async registerUser(@Body() user: CreateUserDto) {
         try {
             await this.userService.createUser(user);

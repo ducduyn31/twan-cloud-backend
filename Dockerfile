@@ -8,7 +8,7 @@ COPY techqila.key /app
 
 COPY package.json /app
 
-COPY firebase-key.json /app
+COPY secrets/firebase-key.json /app
 
 WORKDIR app
 
